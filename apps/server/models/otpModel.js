@@ -1,8 +1,3 @@
-
-
-
-
-
 const { Schema, model } = require("mongoose");
 
 const otpSchema = new Schema({
@@ -13,8 +8,8 @@ const otpSchema = new Schema({
       requestedAt: { type: Date, default: Date.now },
       expiresAt: { type: Date },
       verified: { type: Boolean, default:false },
-      // serviceProvider: { type: String },
-      // serviceProviderResponse: { type: Schema.Types.Mixed },
+      serviceProvider: { type: String },
+      serviceProviderResponse: { type: Schema.Types.Mixed },
     },
   ],
 },{
