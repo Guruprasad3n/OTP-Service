@@ -14,6 +14,8 @@ const generateOtp =  async (req, res) => {
   
       // Generate a random 6-digit OTP
       const otp = Math.floor(100000 + Math.random() * 900000);
+      // const otp: number = Math.floor(100000 + Math.random() * 900000);
+
   
       // Send OTP via Twilio SMS
       const message = await client.messages.create({
@@ -24,6 +26,7 @@ const generateOtp =  async (req, res) => {
   
       // Save OTP to the database
       const otpRecord = await OtpModel.findOne({ identifier });
+      // const otpRecord: OtpModel | null = await OtpModel.findOne({ identifier });
   
       if (otpRecord) {
         // Add the new OTP to the existing array
