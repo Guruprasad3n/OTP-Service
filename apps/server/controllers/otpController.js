@@ -3,8 +3,8 @@ const dotenv = require("dotenv").config();
 const OtpModel = require("../models/otpModel");
 const cron = require("node-cron");
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID || "ACe71d6c2d81dd1dde2c159dc1052b6826";
-const authToken = process.env.TWILIO_AUTH_TOKEN || "51f812b69bd1464be8bbbd21c3c7c29e";
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
 
 const client = twilio(accountSid, authToken);
 
