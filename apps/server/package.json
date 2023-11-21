@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
- 
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"nodemon index.js"
+    "start": "nodemon index.js",
+    "prepare:hooks": "husky install",
+    "pre-commit": "pnpm test"
   },
   "keywords": [],
   "author": "",
@@ -17,10 +18,12 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "mongoose": "^8.0.1",
+    "node-cron": "^3.0.3",
     "nodemon": "^3.0.1",
     "twilio": "^4.19.0"
   },
   "devDependencies": {
+    "husky": "^8.0.3",
     "typescript": "^5.2.2"
   }
 }
