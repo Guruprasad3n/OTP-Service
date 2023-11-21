@@ -19,7 +19,7 @@ const generateOtp = async (req, res) => {
     const message = await client.messages.create({
       body: `Your OTP is: ${otp}`,
       to: `+91${identifier}`, // Replace with the user's mobile number
-      from: "+19177409953", // Replace with your Twilio phone number
+      from: "+12086275218", // Replace with your Twilio phone number
     });
 
     // Save OTP to the database
@@ -129,9 +129,9 @@ const cleanupDatabase = async () => {
 };
 
 // Schedule the cleanup function to run every minute (for testing)
-cron.schedule("* * * * *", async () => {
+cron.schedule("0 0 * * *", async () => {
   console.log("Running database cleanup...");
   await cleanupDatabase();
 });
 
-module.exports = { generateOtp, verifyOtp };
+module.exports = { generateOtp, verifyOtp, cleanupDatabase };
