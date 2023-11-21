@@ -1,5 +1,5 @@
-const cron = require('node-cron');
-const { cleanupDatabase } = require('../controllers/otpController');
+import cron from "node-cron";
+import cleanupDatabase from "../utils/cleanupUtil";
 
 // Schedule the cleanup function to run every day at 12:00 am
 const databaseCleaner = () => {
@@ -9,4 +9,4 @@ const databaseCleaner = () => {
   });
 };
 
-module.exports = databaseCleaner;
+export default databaseCleaner;
