@@ -24,7 +24,7 @@ This project encompasses both the frontend (web) and backend (server) components
 2. Install dependencies:
 
    ```bash
-   npm install
+   pnpm install
    ```
 
 3. Create a `.env` file in the root directory and add the following environment variable:
@@ -38,7 +38,7 @@ This project encompasses both the frontend (web) and backend (server) components
 4. Start the development server:
 
    ```bash
-   npm start
+   pnpm start
    ```
 
    The React app should be running at [http://localhost:3000](http://localhost:3000).
@@ -54,7 +54,7 @@ This project encompasses both the frontend (web) and backend (server) components
 2. Install dependencies:
 
    ```bash
-   npm install
+   pnpm install
    ```
 
 3. Create a `.env` file in the root directory and add the following environment variables:
@@ -72,7 +72,7 @@ This project encompasses both the frontend (web) and backend (server) components
 4. Start the server:
 
    ```bash
-   npm start
+   pnpm start
    ```
 
    The server should be running at [http://localhost:3000](http://localhost:3000).
