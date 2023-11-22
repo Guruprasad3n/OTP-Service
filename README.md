@@ -29,7 +29,7 @@ OTP Service is a Node.js application for generating and verifying one-time passw
 
    ```env
    PORT=3000
-   MONGO_URL=mongodb://127.0.0.1:27017/verification
+   MONGO_URL=mongodb://
    TWILIO_ACCOUNT_SID=your_twilio_account_sid
    TWILIO_AUTH_TOKEN=your_twilio_auth_token
    TWILIO_MOBILE=your_twilio_phone_number
@@ -81,8 +81,4 @@ Feel free to contribute to this project by opening issues or submitting pull req
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-Feel free to customize the README according to your project's specific details. This template provides a starting point and covers essential sections, including installation, usage, directory structure, contributing, and licensing.
+This project is licensed under the [Nolan Edutech Pvt. Ltd.](LICENSE).
