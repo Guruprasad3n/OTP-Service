@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx tsc",
+    "test": "jest",
+    "build": "tsc && cp .env dist/",
     "start": "node dist/index.js",
     "dev": "nodemon --watch src --exec ts-node src/index.ts"
   },
@@ -49,5 +49,17 @@
     "morgan": "^1.10.0",
     "node-cron": "^3.0.3",
     "twilio": "^4.19.0"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/__tests__/**/*.ts"
+    ],
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "tsconfig.json"
+      }
+    }
   }
 }
