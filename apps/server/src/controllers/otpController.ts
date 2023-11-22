@@ -45,7 +45,7 @@ const generateOtp = async (
     const message = await client.messages.create({
       body: `Your OTP is: ${otp}`,
       to: `+91${identifier}`, // Replace with the user's mobile number
-      from: "+14022898276", // Replace with your Twilio phone number
+      from: process.env.TWILIO_MOBILE, // Replace with your Twilio phone number
     });
 
     // Save OTP to the database
