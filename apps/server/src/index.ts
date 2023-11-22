@@ -2,7 +2,6 @@ import express, { Express, Response, Request } from "express";
 import dotenv from "dotenv";
 import router from "./routes/otpRoute";
 import connectDB from "./configs/db";
-// { path: "/path/to/your/env/file" }
 dotenv.config();
 const PORT = process.env.PORT || 8000;
 const app = express();
