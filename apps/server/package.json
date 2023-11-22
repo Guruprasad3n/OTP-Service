@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "test:watch": "jest --watchAll",
-    "build": "npx tsc",
+    "build": "tsc && cp .env dist/",
     "start": "node dist/index.js",
     "dev": "nodemon --watch src --exec ts-node src/index.ts"
   },
@@ -57,6 +56,14 @@
   },
   "jest": {
     "preset": "ts-jest",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/__tests__/**/*.ts"
+    ],
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "tsconfig.json"
+      }
+    }
   }
 }

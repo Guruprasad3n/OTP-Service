@@ -1,12 +1,10 @@
 import { Request, Response } from "express";
 import twilio from "twilio";
 import OtpModel, { OtpDocument } from "../models/otpModel";
-// || "AC73413742637bc4ab558dadd5b072dbc6"
-// || "TWILIO_AUTH_TOKEN = 3698c0fc7e7544c0c80c72d96620e624";
 const accountSid: string =
-  process.env.TWILIO_ACCOUNT_SID || "AC73413742637bc4ab558dadd5b072dbc6";
+  process.env.TWILIO_ACCOUNT_SID || "";
 const authToken: string =
-  process.env.TWILIO_AUTH_TOKEN || "3698c0fc7e7544c0c80c72d96620e624";
+  process.env.TWILIO_AUTH_TOKEN || "";
 
 const client: twilio.Twilio = twilio(accountSid, authToken);
 

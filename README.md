@@ -1,81 +1,155 @@
-# Turborepo starter
+# OTP Service - Web and Server
 
-This is an official Starter Turborepo.
+This project encompasses both the frontend (web) and backend (server) components of an OTP (One-Time Password) service. The web part is implemented using Turbo + Chkra-Ui, and the server part is built with Node.js, Express, typescript, twilio and MongoDB.
 
-## Using this example
+## Table of Contents
 
-Run the following command:
+- [Web Installation](#web-installation)
+- [Server Installation](#server-installation)
+- [Usage](#usage)
+- [Web Directory Structure](#web-directory-structure)
+- [Server Directory Structure](#server-directory-structure)
+- [Components](#components)
+- [Contributing](#contributing)
+- [License](#license)
 
-```sh
-npx create-turbo@latest
-```
+## Web Installation
 
-## What's inside?
+1. Navigate to the web directory:
 
-This Turborepo includes the following packages/apps:
+   ```bash
+   cd otp-service-frontend
+   ```
 
-### Apps and Packages
+2. Install dependencies:
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+   ```bash
+   pnpm install
+   ```
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+3. Create a `.env` file in the root directory and add the following environment variable:
 
-### Utilities
+   ```env
+   REACT_APP_API_URL=http://localhost:3000
+   ```
 
-This Turborepo has some additional tools already setup for you:
+   Replace the `http://localhost:3000` with the URL of your backend API.
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+4. Start the development server:
 
-### Build
+   ```bash
+   pnpm start
+   ```
 
-To build all apps and packages, run the following command:
+   The React app should be running at [http://localhost:3000](http://localhost:3000).
 
-```
-cd my-turborepo
-pnpm build
-```
+## Server Installation
 
-### Develop
+1. Navigate to the server directory:
 
-To develop all apps and packages, run the following command:
+   ```bash
+   cd otp-service
+   ```
 
-```
-cd my-turborepo
-pnpm dev
-```
+2. Install dependencies:
 
-### Remote Caching
+   ```bash
+   pnpm install
+   ```
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+3. Create a `.env` file in the root directory and add the following environment variables:
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
+   ```env
+   PORT=3000
+   MONGO_URL=mongodb://your_mongodb_url
+   TWILIO_ACCOUNT_SID=your_twilio_account_sid
+   TWILIO_AUTH_TOKEN=your_twilio_auth_token
+   TWILIO_MOBILE=your_twilio_phone_number
+   ```
 
-```
-cd my-turborepo
-npx turbo login
-```
+   Replace the values with your specific configuration.
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+4. Start the server:
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+   ```bash
+   pnpm start
+   ```
 
-```
-npx turbo link
-```
+   The server should be running at [http://localhost:3000](http://localhost:3000).
 
-## Useful Links
+## Usage
 
-Learn more about the power of Turborepo:
+### Web
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+#### Login Page
+
+The login page allows users to enter their mobile number to receive an OTP.
+
+1. Enter your mobile number in the input field.
+2. Click on the "Login" button.
+3. Wait for the OTP to be sent.
+
+#### Verify Page
+
+The verify page prompts users to enter the OTP received on their mobile number.
+
+1. Enter the received OTP in the input field.
+2. Click on the "Verify" button.
+3. If the OTP is valid, the verification will succeed.
+
+### Server
+
+- **Generate OTP:**
+
+  ```http
+  POST /api/otp/generate
+  ```
+
+  Generate a new OTP. Requires a JSON body with the `identifier` (phone number).
+
+- **Verify OTP:**
+
+  ```http
+  POST /api/otp/verify
+  ```
+
+  Verify the entered OTP. Requires a JSON body with `identifier` and `userEnteredOTP`.
+
+- **Cleanup Database:**
+
+  The database cleanup runs automatically every day at 12:00 am to remove expired OTP records.
+
+## Web Directory Structure
+
+The project is organized with the following structure:
+
+- **components:** Contains React components for login and OTP verification.
+- **styles:** Includes CSS files for styling the components.
+- **utils:** Contains utility functions used across components.
+- **index.js:** Entry point for the React app.
+
+## Server Directory Structure
+
+- **controllers:** Contains the main logic for generating and verifying OTPs.
+- **middlewares:** Includes rate-limiting middleware.
+- **models:** Defines the Mongoose schema for OTPs.
+- **routes:** Defines the Express routes.
+- **utils:** Contains utility functions, including the database cleanup script.
+
+## Components
+
+### Login Component
+
+The `Login` component handles user input for mobile number and initiates the OTP generation process.
+
+### Verify Component
+
+The `Verify` component handles OTP verification and provides options for resending the OTP.
+
+## Contributing
+
+Feel free to contribute to this project by opening issues or submitting pull requests.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
