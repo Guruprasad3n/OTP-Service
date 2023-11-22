@@ -1,81 +1,88 @@
-# Turborepo starter
 
-This is an official Starter Turborepo.
+# OTP Service
 
-## Using this example
+OTP Service is a Node.js application for generating and verifying one-time passwords (OTP) using Twilio SMS. It uses Express for the server, Mongoose for MongoDB integration, and includes rate limiting and database cleanup features.
 
-Run the following command:
+## Getting Started
 
-```sh
-npx create-turbo@latest
-```
+### Prerequisites
 
-## What's inside?
+- [Node.js](https://nodejs.org/) installed
+- [MongoDB](https://www.mongodb.com/try/download/community) installed or a MongoDB Atlas account
 
-This Turborepo includes the following packages/apps:
+### Installation
 
-### Apps and Packages
+1. Clone the repository:
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+   ```bash
+   git clone https://github.com/yourusername/otp-service.git
+   cd otp-service
+   ```
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+2. Install dependencies:
 
-### Utilities
+   ```bash
+   npm install
+   ```
 
-This Turborepo has some additional tools already setup for you:
+3. Create a `.env` file in the root directory and add the following environment variables:
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+   ```env
+   PORT=3000
+   MONGO_URL=mongodb://127.0.0.1:27017/verification
+   TWILIO_ACCOUNT_SID=your_twilio_account_sid
+   TWILIO_AUTH_TOKEN=your_twilio_auth_token
+   TWILIO_MOBILE=your_twilio_phone_number
+   ```
 
-### Build
+   Replace the values with your specific configuration.
 
-To build all apps and packages, run the following command:
+4. Start the server:
 
-```
-cd my-turborepo
-pnpm build
-```
+   ```bash
+   npm start
+   ```
 
-### Develop
+   The server should be running at http://localhost:3000.
 
-To develop all apps and packages, run the following command:
+## Usage
 
-```
-cd my-turborepo
-pnpm dev
-```
+- **Generate OTP:**
 
-### Remote Caching
+  ```http
+  POST /api/otp/generate
+  ```
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+  Generate a new OTP. Requires a JSON body with the `identifier` (phone number).
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
+- **Verify OTP:**
 
-```
-cd my-turborepo
-npx turbo login
-```
+  ```http
+  POST /api/otp/verify
+  ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+  Verify the entered OTP. Requires a JSON body with `identifier` and `userEnteredOTP`.
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+- **Cleanup Database:**
 
-```
-npx turbo link
-```
+  The database cleanup runs automatically every day at 12:00 am to remove expired OTP records.
 
-## Useful Links
+## Directory Structure
 
-Learn more about the power of Turborepo:
+- **controllers:** Contains the main logic for generating and verifying OTPs.
+- **middlewares:** Includes rate-limiting middleware.
+- **models:** Defines the Mongoose schema for OTPs.
+- **routes:** Defines the Express routes.
+- **utils:** Contains utility functions, including the database cleanup script.
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+## Contributing
+
+Feel free to contribute to this project by opening issues or submitting pull requests.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+Feel free to customize the README according to your project's specific details. This template provides a starting point and covers essential sections, including installation, usage, directory structure, contributing, and licensing.
