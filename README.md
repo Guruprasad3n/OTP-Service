@@ -152,4 +152,4 @@ Feel free to contribute to this project by opening issues or submitting pull req
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [Nolan Edutech Pvt. Ltd.](LICENSE).
