@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import twilio from "twilio";
 import OtpModel, { OtpDocument } from "../models/otpModel";
 const accountSid: string =
-  process.env.TWILIO_ACCOUNT_SID || "";
+  process.env.TWILIO_ACCOUNT_SID || "ACb90a62a2cf5ba4eae89ac903feb61674";
 const authToken: string =
-  process.env.TWILIO_AUTH_TOKEN || "";
+  process.env.TWILIO_AUTH_TOKEN || "8380211165ed2d0bcdb84a4d7b37743e";
 
 const client: twilio.Twilio = twilio(accountSid, authToken);
 
@@ -24,7 +24,7 @@ const generateOtp = async (
       lockoutUntil: { $gt: new Date() },
     });
 
-    if (lockedUser) {
+    if (lockedUser && lockedUser.lockoutUntil) {
       const lockoutRemainingMinutes = Math.ceil(
         (lockedUser.lockoutUntil.getTime() - new Date().getTime()) / (60 * 1000)
       );
@@ -43,7 +43,7 @@ const generateOtp = async (
     const message = await client.messages.create({
       body: `Your OTP is: ${otp}`,
       to: `+91${identifier}`, // Replace with the user's mobile number
-      from: process.env.TWILIO_MOBILE, // Replace with your Twilio phone number
+      from: process.env.TWILIO_MOBILE || "", // Replace with your Twilio phone number
     });
 
     // Save OTP to the database
@@ -57,7 +57,7 @@ const generateOtp = async (
         code: otp,
         expiresAt: new Date(Date.now() + 5 * 60 * 1000),
         verified: false,
-        requestedAt: undefined,
+        requestedAt: new Date(),
         serviceProvider: "",
         serviceProviderResponse: undefined,
       });
@@ -82,15 +82,28 @@ const generateOtp = async (
       otpSid: message.sid,
       success: true,
     });
-  } catch (error) {
-    console.error("Error generating OTP:", error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error generating/verifying OTP:", error);
 
-    res.status(500).send({
-      error: "Internal server error",
-      message: error.message,
-      success: false,
-    });
+      res.status(500).send({
+        success: false,
+        error: "Internal server error",
+        message: error.message,
+      });
+    } else {
+      // Handle non-Error type errors if needed
+      console.error("Unknown error generating/verifying OTP:", error);
+
+      res.status(500).send({
+        success: false,
+        error: "Internal server error",
+        message: "An unknown error occurred",
+      });
+    }
   }
+  // Added Changes about the error Handeling
+  return res;
 };
 
 const verifyOtp = async (
@@ -192,7 +205,25 @@ const verifyOtp = async (
       });
     } else {
       // Include information about lockout in the response
-      const response = {
+      // const response = {
+      //   success: false,
+      //   error: "Invalid OTP",
+      //   message: "Please enter a valid OTP.",
+      //   lockout:  { until: Date; remainingTime: number } | null;
+      // } = {
+      //   success: false,
+      //   error: "Invalid OTP",
+      //   message: "Please enter a valid OTP.",
+      //   lockout: null,
+
+      // };
+
+      const response: {
+        success: false;
+        error: "Invalid OTP";
+        message: "Please enter a valid OTP.";
+        lockout: { until: Date; remainingTime: number } | null;
+      } = {
         success: false,
         error: "Invalid OTP",
         message: "Please enter a valid OTP.",
@@ -212,14 +243,27 @@ const verifyOtp = async (
 
       return res.status(400).send(response);
     }
-  } catch (error) {
-    console.error("Error verifying OTP:", error);
-    res.status(500).send({
-      success: false,
-      error: "Internal server error",
-      message: error.message,
-    });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error generating/verifying OTP:", error);
+
+      res.status(500).send({
+        success: false,
+        error: "Internal server error",
+        message: error.message,
+      });
+    } else {
+      // Handle non-Error type errors if needed
+      console.error("Unknown error generating/verifying OTP:", error);
+
+      res.status(500).send({
+        success: false,
+        error: "Internal server error",
+        message: "An unknown error occurred",
+      });
+    }
   }
+  return res;
 };
 
 export { generateOtp, verifyOtp };
