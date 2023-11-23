@@ -130,6 +130,9 @@ importers:
       '@types/node':
         specifier: ^20.9.4
         version: 20.9.4
+      '@types/node-cron':
+        specifier: ^3.0.11
+        version: 3.0.11
       '@types/passport':
         specifier: ^1.0.16
         version: 1.0.16
@@ -4133,6 +4136,10 @@ packages:
       - mongodb-client-encryption
       - snappy
       - supports-color
+    dev: true
+
+  /@types/node-cron@3.0.11:
+    resolution: {integrity: sha512-0ikrnug3/IyneSHqCBeslAhlK2aBfYek1fGo4bP4QnZPmiqSGRK+Oy7ZMisLWkesffJvQ1cqAcBnJC+8+nxIAg==}
     dev: true
 
   /@types/node@17.0.45:

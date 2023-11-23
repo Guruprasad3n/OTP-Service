@@ -10,6 +10,6 @@ const otpLimiter = rateLimit({
   },
 });
 
-export default (req: Request, res: Response, next: NextFunction) => {
+export default (req: Request, res: Response, next: NextFunction):void => {
   otpLimiter(req, res, next);
 };

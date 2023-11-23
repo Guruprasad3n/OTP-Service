@@ -7,18 +7,7 @@ import rateLimit, { RateLimitRequestHandler, Options, ClientRateLimitInfo } from
 
 jest.mock("express-rate-limit");
 
-
-// const mockedRateLimit = rateLimit as jest.MockedFunction<
-//   (passedOptions?: Partial<Options>) => RateLimitRequestHandler
-// >;
 const mockedRateLimit = rateLimit as jest.MockedFunction<any>;
-
-// const mockedRateLimit = rateLimit as jest.MockedFunction<
-//   (options?: Partial<Options>) => RateLimitRequestHandler & {
-//     resetKey: (key: string) => void;
-//     getKey: (key: string) => ClientRateLimitInfo | Promise<ClientRateLimitInfo>;
-//   }
-// >;
 describe("otpLimitMiddleware", () => {
   it("should call rate limit middleware and pass to the next middleware", () => {
     const req = {} as Request;
@@ -36,24 +25,12 @@ describe("otpLimitMiddleware", () => {
     const res = { status: jest.fn(), send: jest.fn() } as unknown as Response;
     const next = jest.fn() as NextFunction;
 
-    // Simulate rate limit exceeded scenario
-    // rateLimit.mockImplementation(
-    //   () => (req: Request, res: Response, next: NextFunction) => {
-    //     res.status(429).send({ success: false, error: "Rate limit exceeded" });
-    //   }
-    // );
-
     mockedRateLimit.mockImplementation((options?: Partial<Options>) => {
         return (req: Request, res: Response, next: NextFunction) => {
           res.status(429).send({ success: false, error: 'Rate limit exceeded' });
         };
       });
 
-    // mockedRateLimit.mockImplementation((options?: Partial<Options>) => {
-    //     return (req: Request, res: Response, next: NextFunction) => {
-    //       res.status(429).send({ success: false, error: 'Rate limit exceeded' });
-    //     };
-    //   });
     otpLimitMiddleware(req, res, next);
 
     expect(res.status).toHaveBeenCalledWith(429);

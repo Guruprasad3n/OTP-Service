@@ -1,4 +1,4 @@
-import OtpModel, { OtpDocument } from "../models/otpModel";
+import OtpModel from "../models/otpModel";
 
 const cleanupDatabase = async (): Promise<void> => {
   try {
